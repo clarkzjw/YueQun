@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 pony = "*"
+python-telegram-bot = "*"
+pymysql = "*"
+pika = "*"
 
 [dev-packages]
 

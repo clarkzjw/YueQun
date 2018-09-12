@@ -12,9 +12,11 @@ import logging
 from model.db import init_db
 
 from pprint import pprint
-
+from broker.rabbitmq.producer import send_raw_update_to_mq
 
 from config.common import TG_BOT_TOKEN
+
+import json
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -59,7 +61,13 @@ def help(bot, update):
 def yqbot_handler(bot, update):
     """Echo the user message."""
     # TODO: send message to rabbitmq
-    update.message.reply_text(update.message.text)
+    # update.message.reply_text(update.message.text)
+    import pika
+
+    connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
+    chan = connection.channel()
+    send_raw_update_to_mq(chan, update)
+    connection.close()
 
 
 def error(bot, update, error):

@@ -9,6 +9,7 @@ YueQun Bot - An advanced bot to improve your Telegram group chat experiences.
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
+from model.db import init_db
 
 from pprint import pprint
 
@@ -37,6 +38,7 @@ help_text = """
 `/get_mention` *关于我的消息*：获取一定时间段内群内与您有关的消息
 `/get_user` *获取某用户的水群报告*：根据某用户在群内发言的记录，分析该用户的行为习惯
 `/get_report` *获取水群消息摘要*：通过一定时间段内，总结群内发言消息的摘要
+`/help` *帮助*：显示本帮助
 """
 
 
@@ -52,8 +54,6 @@ def help(bot, update):
     """Send a message when the command /help is issued."""
     update.message.reply_text(text=help_text,
                               parse_mode=telegram.ParseMode.MARKDOWN)
-
-
 
 
 def yqbot_handler(bot, update):
@@ -99,6 +99,8 @@ def user_get_mention(bot, update):
 
 def main():
     """Start the bot."""
+
+    init_db()
 
     # Create the EventHandler and pass it your bot's token.
     updater = Updater(TG_BOT_TOKEN)

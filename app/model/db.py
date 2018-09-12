@@ -1,7 +1,14 @@
 from pony.orm import *
+from config.common import MYSQL_ADDRESS, MYSQL_PORT,MYSQL_USER, MYSQL_PASS, MYSQL_DB
 
 
 db = Database()
+db.bind(provider='mysql', host=MYSQL_ADDRESS, user=MYSQL_USER, passwd=MYSQL_PASS, db=MYSQL_DB)
+
+
+def init_db():
+    print("Initializing Database……")
+    db.generate_mapping(create_tables=True)
 
 
 class Message(db.Entity):
@@ -62,4 +69,10 @@ class Reminder(db.Entity):
     tg_user_id = Required(int, size=64)
 
 
-db.generate_mapping()
+class BotCommand(db.Entity):
+    id = PrimaryKey(int, auto=True)
+    tg_user_id = Required(int, size=64)
+    tg_cmd_timestamp = Required(int, size=64)
+    tg_cmd_text = Required(str)
+    tg_update_id = Required(int, size=64)
+    tg_update_full = Required(Json)

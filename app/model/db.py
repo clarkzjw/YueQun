@@ -1,6 +1,6 @@
 from pony.orm import *
 from config.common import MYSQL_ADDRESS, MYSQL_PORT,MYSQL_USER, MYSQL_PASS, MYSQL_DB
-
+from datetime import datetime
 
 db = Database()
 db.bind(provider='mysql', host=MYSQL_ADDRESS, user=MYSQL_USER, passwd=MYSQL_PASS, db=MYSQL_DB)
@@ -19,9 +19,9 @@ class Message(db.Entity):
     tg_msg_url = Optional(str)
     tg_msg_is_reply = Optional(bool, default=False)
     tg_msg_is_at = Optional(bool, default=False)
-    tg_msg_timestamp = Required(int, size=64)
+    tg_msg_timestamp = Required(datetime)
     tg_update_id = Required(int, size=64)
-    tg_update_full = Required(Json)
+    tg_update_full = Required(bytes)
 
 
 class User(db.Entity):
@@ -36,31 +36,31 @@ class User(db.Entity):
 class HourlyReport(db.Entity):
     id = PrimaryKey(int, auto=True)
     hour_id = Optional(int, size=8)  # 当天的小时id，取值1-12
-    metadata = Optional(Json)
+    metadata = Optional(bytes)
     daily_report_id = Optional(int, size=16)
 
 
 class DailyReport(db.Entity):
     id = PrimaryKey(int, auto=True)
-    metadata = Optional(Json)
+    metadata = Optional(bytes)
     weekly_report_id = Optional(int, size=16)
 
 
 class WeeklyReport(db.Entity):
     id = PrimaryKey(int, auto=True)
-    metadata = Optional(Json)
+    metadata = Optional(bytes)
     monthly_report_id = Optional(int, size=16)
 
 
 class MonthlyReport(db.Entity):
     id = PrimaryKey(int, auto=True)
-    metadata = Optional(Json)
+    metadata = Optional(bytes)
     yearly_report_id = Optional(int, size=16)
 
 
 class YearlyReport(db.Entity):
     id = PrimaryKey(int, auto=True)
-    metadata = Optional(Json)
+    metadata = Optional(bytes)
 
 
 class Reminder(db.Entity):
@@ -72,7 +72,7 @@ class Reminder(db.Entity):
 class BotCommand(db.Entity):
     id = PrimaryKey(int, auto=True)
     tg_user_id = Required(int, size=64)
-    tg_cmd_timestamp = Required(int, size=64)
+    tg_cmd_timestamp = Required(datetime)
     tg_cmd_text = Required(str)
     tg_update_id = Required(int, size=64)
-    tg_update_full = Required(Json)
+    tg_update_full = Required(bytes)

@@ -6,17 +6,16 @@ YueQun Bot - An advanced bot to improve your Telegram group chat experiences.
 
 """
 
+import logging
+
+import pika
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import logging
-from model.db import init_db
 
-from pprint import pprint
 from broker.rabbitmq.producer import send_raw_update_to_mq
-
 from config.common import TG_BOT_TOKEN
-
-import json
+from group.common import auth
+from model.db import init_db
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -46,12 +45,15 @@ help_text = """
 
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
+@auth
 def start(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text(text=welcome_text,
                               parse_mode=telegram.ParseMode.MARKDOWN)
 
 
+
+@auth
 def help(bot, update):
     """Send a message when the command /help is issued."""
     update.message.reply_text(text=help_text,
@@ -59,11 +61,6 @@ def help(bot, update):
 
 
 def yqbot_handler(bot, update):
-    """Echo the user message."""
-    # TODO: send message to rabbitmq
-    # update.message.reply_text(update.message.text)
-    import pika
-
     connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
     chan = connection.channel()
     send_raw_update_to_mq(chan, update)
@@ -75,34 +72,40 @@ def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
 
 
+@auth
 def user_set_ignore(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@auth
 def user_set_keyword_reminder(bot, update):
     # TODO: write an function about get keyword list by user
     update.message.reply_text("Not implemented yet.")
 
 
+@auth
 def user_get_cron_report(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@auth
 def user_get_per_user_report(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@auth
 def user_get_msg_count_rank(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@auth
 def user_get_reply_relation(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@auth
 def user_get_mention(bot, update):
     update.message.reply_text("Not implemented yet.")
-
 
 
 def main():
@@ -127,7 +130,7 @@ def main():
     dp.add_handler(CommandHandler("get_bagua", user_get_reply_relation))
     dp.add_handler(CommandHandler("get_mention", user_get_mention))
 
-    # on noncommand i.e message - echo the message on Telegram
+    # on noncommand i.e message
     dp.add_handler(MessageHandler(Filters.all, yqbot_handler))
 
     # log all errors

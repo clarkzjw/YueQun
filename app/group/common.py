@@ -35,10 +35,20 @@ def check_user_in_db(user_id):
         return True
 
 
+def change_user_ignore(user_id):
+    with db_session:
+        user = User.get(tg_user_id=user_id)
+        if not user:
+            insert_user_in_db(user_id)
+        user = User.get(tg_user_id=user_id)
+        user.tg_user_ignore = 1 ^ user.tg_user_ignore
+        commit()
+        return user.tg_user_ignore
+
+
 def Unauthorized(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text(text="您尚未加入杭蓝水群，请联系您周围的友军！")
-
 
 
 def auth(func):

@@ -25,12 +25,11 @@ class Message(db.Entity):
 
 
 class User(db.Entity):
-    id = Required(int)
+    id = PrimaryKey(int, auto=True)
     tg_user_id = Required(int, size=64)
     tg_user_username = Optional(str)
     tg_user_nickname = Optional(str)
     tg_user_ignore = Optional(bool, default=False)
-    PrimaryKey(id, tg_user_id)
 
 
 class HourlyReport(db.Entity):

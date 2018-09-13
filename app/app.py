@@ -15,6 +15,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from broker.rabbitmq.producer import send_raw_update_to_mq
 from config.common import TG_BOT_TOKEN
 from group.common import auth
+from group.common import change_user_ignore
 from model.db import init_db
 
 # Enable logging
@@ -74,7 +75,14 @@ def error(bot, update, error):
 
 @auth
 def user_set_ignore(bot, update):
-    update.message.reply_text("Not implemented yet.")
+    user_id = update.message.from_user.id
+    current_flag = change_user_ignore(user_id)
+    if current_flag:
+        update.message.reply_text(text="修改成功，您当前的状态是：*已被忽略*",
+                                  parse_mode=telegram.ParseMode.MARKDOWN)
+    else:
+        update.message.reply_text(text="修改成功，您当前的状态是：*未被忽略*",
+                                  parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 @auth

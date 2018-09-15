@@ -8,10 +8,6 @@ def check_group_auth(group_id):
     return int(TG_IN_USE_GROUP) == group_id
 
 
-def get_group_member_list(bot, group_id):
-    pass
-
-
 def check_user_in_group(bot, group_id, user_id):
     try:
         cm = bot.get_chat_member(group_id, user_id)
@@ -21,10 +17,18 @@ def check_user_in_group(bot, group_id, user_id):
         return False
 
 
-def insert_user_in_db(user_id):
+def insert_user_by_update(update):
     with db_session:
-        User(tg_user_id=user_id)
-        commit()
+        user_id = update.message.from_user.id
+        query = User.select(lambda p: p.tg_user_id == user_id)
+        if not list(query):
+            User(tg_user_id=update.message.from_user.id,
+                 tg_user_username=update.message.from_user.username,
+                 tg_user_nickname="{} {}".format(update.message.from_user.first_name,
+                                                 "" if not update.message.from_user.last_name
+                                                 else update.message.from_user.last_name),
+                 tg_user_ignore=0)
+            commit()
 
 
 def check_user_in_db(user_id):
@@ -35,11 +39,12 @@ def check_user_in_db(user_id):
         return True
 
 
-def change_user_ignore(user_id):
+def change_user_ignore(update):
     with db_session:
+        user_id = update.message.from_user.id
         user = User.get(tg_user_id=user_id)
         if not user:
-            insert_user_in_db(user_id)
+            insert_user_by_update(update)
         user = User.get(tg_user_id=user_id)
         user.tg_user_ignore = 1 ^ user.tg_user_ignore
         commit()

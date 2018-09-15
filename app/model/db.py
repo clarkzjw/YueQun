@@ -3,7 +3,7 @@ from config.common import MYSQL_ADDRESS, MYSQL_PORT,MYSQL_USER, MYSQL_PASS, MYSQ
 from datetime import datetime
 
 db = Database()
-db.bind(provider='mysql', host=MYSQL_ADDRESS, user=MYSQL_USER, passwd=MYSQL_PASS, db=MYSQL_DB)
+db.bind(provider='mysql', host=MYSQL_ADDRESS, user=MYSQL_USER, passwd=MYSQL_PASS, db=MYSQL_DB, charset='utf8mb4')
 
 
 def init_db():
@@ -14,12 +14,16 @@ def init_db():
 class Message(db.Entity):
     id = PrimaryKey(int, auto=True)
     tg_user_id = Required(int, size=64)
+    tg_user_username = Optional(str)
+
     tg_msg_id = Required(int, size=64)
     tg_msg_text = Required(str)
-    tg_msg_url = Optional(str)
     tg_msg_is_reply = Optional(bool, default=False)
-    tg_msg_is_at = Optional(bool, default=False)
+    tg_msg_is_mention = Optional(bool, default=False)
     tg_msg_timestamp = Required(datetime)
+
+    tg_msg_is_sticker = Optional(bool, default=0)
+
     tg_update_id = Required(int, size=64)
     tg_update_full = Required(bytes)
 

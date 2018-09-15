@@ -76,7 +76,7 @@ def error(bot, update, error):
 @auth
 def user_set_ignore(bot, update):
     user_id = update.message.from_user.id
-    current_flag = change_user_ignore(user_id)
+    current_flag = change_user_ignore(update)
     if current_flag:
         update.message.reply_text(text="修改成功，您当前的状态是：*已被忽略*",
                                   parse_mode=telegram.ParseMode.MARKDOWN)

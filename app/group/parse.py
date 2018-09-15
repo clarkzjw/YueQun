@@ -1,5 +1,4 @@
-from config.common import TG_IN_USE_GROUP
-from model.db import User, db_session, commit
+from model.db import User, db_session
 
 
 def check_is_mention(update):

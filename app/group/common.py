@@ -67,3 +67,16 @@ def auth(func):
             Unauthorized(*args, **kwargs)
 
     return wrapper
+
+
+def group_auth(func):
+    def wrapper(*args, **kwargs):
+        bot = args[0]
+        update = args[1]
+        group_id = update.message.chat.id
+        if check_group_auth(group_id):
+            func(*args, **kwargs)
+        else:
+            pass
+
+    return  wrapper

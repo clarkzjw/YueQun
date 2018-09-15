@@ -14,8 +14,9 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from broker.rabbitmq.producer import send_raw_update_to_mq
 from config.common import TG_BOT_TOKEN
-from group.common import auth
+from group.common import auth, group_auth
 from group.common import change_user_ignore
+from group.rank import get_rank
 from model.db import init_db
 
 # Enable logging
@@ -61,6 +62,7 @@ def help(bot, update):
                               parse_mode=telegram.ParseMode.MARKDOWN)
 
 
+@group_auth
 def yqbot_handler(bot, update):
     connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
     chan = connection.channel()
@@ -103,7 +105,8 @@ def user_get_per_user_report(bot, update):
 
 @auth
 def user_get_msg_count_rank(bot, update):
-    update.message.reply_text("Not implemented yet.")
+    update.message.reply_text(text=get_rank(),
+                              parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 @auth

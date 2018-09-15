@@ -1,7 +1,9 @@
+import pickle
+
 from telegram.error import BadRequest
 
 from config.common import TG_IN_USE_GROUP
-from model.db import User, db_session, commit
+from model.db import User, db_session, commit, BotCommand
 
 
 def check_group_auth(group_id):
@@ -79,4 +81,33 @@ def group_auth(func):
         else:
             pass
 
-    return  wrapper
+    return wrapper
+
+
+def check_in_group_message(func):
+    def wrapper(*args, **kwargs):
+        bot = args[0]
+        update = args[1]
+        chat_type = update.message.chat.type
+        if chat_type in ("group", "supergroup"):
+            update.message.reply_text(text="为减少对群消息的打扰，请通过与 @yuequnbot 私聊来获取信息")
+        else:
+            func(*args, **kwargs)
+
+    return wrapper
+
+
+def log_command(func):
+    def wrapper(*args, **kwargs):
+        bot = args[0]
+        update = args[1]
+
+        with db_session:
+            BotCommand(tg_user_id=update.message.from_user.id,
+                       tg_cmd_timestamp=update.message.date,
+                       tg_cmd_text=update.message.text,
+                       tg_update_id=update.update_id,
+                       tg_update_full=pickle.dumps(update))
+            commit()
+        func(*args, **kwargs)
+    return wrapper

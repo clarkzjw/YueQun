@@ -15,7 +15,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from broker.rabbitmq.producer import send_raw_update_to_mq
 from config.common import MQ_PARAMS
 from config.common import TG_BOT_TOKEN
-from group.common import auth, group_auth
+from group.common import auth, group_auth, check_in_group_message, log_command
 from group.common import change_user_ignore
 from group.rank import get_rank
 from model.db import init_db
@@ -48,15 +48,18 @@ help_text = """
 
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
+@log_command
 @auth
+@check_in_group_message
 def start(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text(text=welcome_text,
                               parse_mode=telegram.ParseMode.MARKDOWN)
 
 
-
+@log_command
 @auth
+@check_in_group_message
 def help(bot, update):
     """Send a message when the command /help is issued."""
     update.message.reply_text(text=help_text,
@@ -76,7 +79,9 @@ def error(bot, update, error):
     logger.warning('Update "%s" caused error "%s"', update, error)
 
 
+@log_command
 @auth
+@check_in_group_message
 def user_set_ignore(bot, update):
     user_id = update.message.from_user.id
     current_flag = change_user_ignore(update)
@@ -88,34 +93,46 @@ def user_set_ignore(bot, update):
                                   parse_mode=telegram.ParseMode.MARKDOWN)
 
 
+@log_command
 @auth
+@check_in_group_message
 def user_set_keyword_reminder(bot, update):
     # TODO: write an function about get keyword list by user
     update.message.reply_text("Not implemented yet.")
 
 
+@log_command
 @auth
+@check_in_group_message
 def user_get_cron_report(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@log_command
 @auth
+@check_in_group_message
 def user_get_per_user_report(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@log_command
 @auth
+@check_in_group_message
 def user_get_msg_count_rank(bot, update):
     update.message.reply_text(text=get_rank(),
                               parse_mode=telegram.ParseMode.MARKDOWN)
 
 
+@log_command
 @auth
+@check_in_group_message
 def user_get_reply_relation(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+@log_command
 @auth
+@check_in_group_message
 def user_get_mention(bot, update):
     update.message.reply_text("Not implemented yet.")
 

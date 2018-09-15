@@ -8,11 +8,10 @@ services:
     image: "clarkzjw/yuequnbot:latest"
     env_file: .envfile
     command: python /yqbot/app/broker/rabbitmq/consumer.py
-
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
-    - "5672:5672"
-    - "8080:15672"
+    - "56720:5672"
+    - "8081:15672"
     volumes:
-    - /yqbot/data/rabbitmq:/var/lib/rabbitmq
+    - ./data/rabbitmq:/var/lib/rabbitmq

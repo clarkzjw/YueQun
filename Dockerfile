@@ -9,6 +9,6 @@ ADD Pipfile /yqbot/Pipfile
 
 WORKDIR /yqbot
 
-RUN pipenv sync
+RUN pipenv install --system --deploy
 
 ADD . /yqbot

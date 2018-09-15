@@ -13,6 +13,7 @@ import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from broker.rabbitmq.producer import send_raw_update_to_mq
+from config.common import MQ_PARAMS
 from config.common import TG_BOT_TOKEN
 from group.common import auth, group_auth
 from group.common import change_user_ignore
@@ -64,7 +65,7 @@ def help(bot, update):
 
 @group_auth
 def yqbot_handler(bot, update):
-    connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1'))
+    connection = pika.BlockingConnection(MQ_PARAMS)
     chan = connection.channel()
     send_raw_update_to_mq(chan, update)
     connection.close()

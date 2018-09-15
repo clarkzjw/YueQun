@@ -5,12 +5,13 @@ import pickle
 import pika
 from pony.orm import db_session, commit
 
-from config.common import MQ_ADDRESS, MQ_CHANNEL_GROUP_MESSAGE
+from config.common import MQ_CHANNEL_GROUP_MESSAGE
+from config.common import MQ_PARAMS
 from group.common import insert_user_by_update
 from group.parse import check_is_mention, check_is_reply, check_is_sticker, check_user_ignore
 from model.db import Message, db
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(MQ_ADDRESS))
+connection = pika.BlockingConnection(MQ_PARAMS)
 channel = connection.channel()
 
 channel.queue_declare(queue=MQ_CHANNEL_GROUP_MESSAGE)

@@ -1,28 +1,20 @@
 version: 2
 jobs:
   build:
-    branches:
-      only:
-        - master
     working_directory: /app
     docker:
       - image: docker:17.05.0-ce-git
     steps:
       - checkout
-      - setup_remote_docker:
-          reusable: true
-
+      - setup_remote_docker
       - run:
-          name: Build Docker image
+          name: Install dependencies
           command: |
-            TAG="0.1.${CIRCLE_BUILD_NUM}"
-            docker build -t clarkzjw/yuequnbot:$TAG .
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push clarkzjw/yuequnbot:$TAG
-            docker tag clarkzjw/yuequnbot:$TAG clarkzjw/yuequnbot:latest
-            docker push clarkzjw/yuequnbot:latest
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
+            apk add --no-cache \
+              py-pip=9.0.0-r1
+            pip install \
+              docker-compose==1.12.0
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build -t app .

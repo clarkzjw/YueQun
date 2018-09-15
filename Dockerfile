@@ -3,13 +3,12 @@ LABEL MAINTAINER=clarkzjw<hello@jinwei.me>
 
 RUN pip install --upgrade pipenv
 
-ADD Pipfile.lock /app/Pipfile.lock
+ADD Pipfile.lock /yqbot/Pipfile.lock
 
-ADD Pipfile /app/Pipfile
+ADD Pipfile /yqbot/Pipfile
 
-WORKDIR /app
+WORKDIR /yqbot
 
 RUN pipenv sync
 
-ADD . /app
-
+ADD . /yqbot

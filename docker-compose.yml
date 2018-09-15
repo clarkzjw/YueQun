@@ -2,6 +2,12 @@ version: '2'
 services:
   yqbot:
     image: "clarkzjw/yuequnbot:latest"
+    env_file: .envfile
+    command: python /yqbot/app/app.py
+  consumer:
+    image: "clarkzjw/yuequnbot:latest"
+    env_file: .envfile
+    command: python /yqbot/app/broker/rabbitmq/consumer.py
 
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -9,4 +15,4 @@ services:
     - "5672:5672"
     - "8080:15672"
     volumes:
-    - /app/data/rabbitmq:/var/lib/rabbitmq
+    - /yqbot/data/rabbitmq:/var/lib/rabbitmq

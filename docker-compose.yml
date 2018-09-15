@@ -1,0 +1,12 @@
+version: '2'
+services:
+  yqbot:
+    image: "clarkzjw/yuequnbot:latest"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+    - "5672:5672"
+    - "8080:15672"
+    volumes:
+    - /app/data/rabbitmq:/var/lib/rabbitmq

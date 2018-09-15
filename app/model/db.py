@@ -3,7 +3,7 @@ from config.common import MYSQL_ADDRESS, MYSQL_PORT,MYSQL_USER, MYSQL_PASS, MYSQ
 from datetime import datetime
 
 db = Database()
-db.bind(provider='mysql', host=MYSQL_ADDRESS, user=MYSQL_USER, passwd=MYSQL_PASS, db=MYSQL_DB, charset='utf8mb4')
+db.bind(provider='mysql', host=MYSQL_ADDRESS, port=int(MYSQL_PORT), user=MYSQL_USER, passwd=MYSQL_PASS, db=MYSQL_DB, charset='utf8mb4')
 
 
 def init_db():

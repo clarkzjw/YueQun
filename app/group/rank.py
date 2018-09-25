@@ -1,16 +1,14 @@
-from config.common import TG_IN_USE_GROUP
-from model.db import User, db_session, commit, Message
-from pony.orm.core import select
+from pony.orm.core import select, count, desc
 
+from model.db import db_session, Message
 
 
 def get_rank():
     with db_session:
-        all_messages = select(msg for msg in Message)
-        all_users = [msg.tg_user_username for msg in all_messages]
-        rank = {u: all_users.count(u) for u in all_users}
-        rank = sorted(rank.items(), key=lambda x: x[1], reverse=True)
+        all_messages = list(select((msg.tg_user_username, count()) for msg in Message).order_by(lambda: desc(count())))
         rank_text = ""
-        for r in rank:
-            rank_text += "*{}* => {}\n".format(r[0], r[1])
+        c = 1
+        for r in all_messages:
+            rank_text += "*{}. {}* => {}\n".format(c, r[0], r[1])
+            c += 1
         return rank_text

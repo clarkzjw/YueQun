@@ -8,6 +8,8 @@ pony = "*"
 python-telegram-bot = "*"
 pymysql = "*"
 pika = "*"
+jieba = "*"
+wordcloud = "*"
 
 [dev-packages]
 

@@ -115,6 +115,13 @@ def user_get_per_user_report(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
+
+def user_get_word_cloud(bot, update):
+    from group.cloud import get_word_cloud
+    get_word_cloud()
+
+
+
 @log_command
 @auth
 @check_in_group_message
@@ -158,6 +165,8 @@ def main():
     dp.add_handler(CommandHandler("get_rank", user_get_msg_count_rank))
     dp.add_handler(CommandHandler("get_bagua", user_get_reply_relation))
     dp.add_handler(CommandHandler("get_mention", user_get_mention))
+    dp.add_handler(CommandHandler("get_word_cloud", user_get_word_cloud))
+
 
     # on noncommand i.e message
     dp.add_handler(MessageHandler(Filters.all, yqbot_handler))

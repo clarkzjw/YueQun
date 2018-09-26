@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+*.csv
+.DS_Store
 .envfile
 data/
 .idea/

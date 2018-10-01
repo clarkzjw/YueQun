@@ -177,7 +177,7 @@ def main():
     dp.add_handler(CommandHandler("get_rank", user_get_msg_count_rank, pass_args=True))
     dp.add_handler(CommandHandler("get_bagua", user_get_reply_relation))
     dp.add_handler(CommandHandler("get_mention", user_get_mention))
-    dp.add_handler(CommandHandler("get_word_cloud", user_get_word_cloud))
+    dp.add_handler(CommandHandler("get_cloud", user_get_word_cloud))
 
     # on noncommand i.e message
     dp.add_handler(MessageHandler(Filters.all, yqbot_handler))

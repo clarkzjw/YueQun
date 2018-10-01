@@ -53,7 +53,7 @@ def change_user_ignore(update):
         return user.tg_user_ignore
 
 
-def Unauthorized(bot, update):
+def Unauthorized(bot, update, args):
     """Send a message when the command /start is issued."""
     update.message.reply_text(text="您尚未加入杭蓝水群，请联系您周围的友军！")
 

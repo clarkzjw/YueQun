@@ -123,18 +123,19 @@ def user_get_word_cloud(bot, update):
 
 
 @log_command
-@auth
+# @auth
 @check_in_group_message
-def user_get_msg_count_rank(bot, update):
-    update.message.reply_text(text=get_rank(),
+def user_get_msg_count_rank(bot, update, args):
+    update.message.reply_text(text=get_rank(args),
                               parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 @log_command
-@auth
+# @auth
 @check_in_group_message
 def user_get_reply_relation(bot, update):
-    update.message.reply_text("Not implemented yet.")
+    from group.bagua import get_reply_network
+    get_reply_network()
 
 
 @log_command
@@ -162,7 +163,7 @@ def main():
     dp.add_handler(CommandHandler("set_keyword", user_set_keyword_reminder))
     dp.add_handler(CommandHandler("get_report", user_get_cron_report))
     dp.add_handler(CommandHandler("get_user", user_get_per_user_report))
-    dp.add_handler(CommandHandler("get_rank", user_get_msg_count_rank))
+    dp.add_handler(CommandHandler("get_rank", user_get_msg_count_rank, pass_args=True))
     dp.add_handler(CommandHandler("get_bagua", user_get_reply_relation))
     dp.add_handler(CommandHandler("get_mention", user_get_mention))
     dp.add_handler(CommandHandler("get_word_cloud", user_get_word_cloud))

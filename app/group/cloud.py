@@ -55,7 +55,7 @@ def get_word_cloud():
         for i in reader:
             wd[i["word"]] = int(i["count"])
 
-    wordcloud = WordCloud(width=1024, height=1024, font_path="/Library/Fonts/SourceHanSans-Normal.ttc",
+    wordcloud = WordCloud(width=1024, height=1024, font_path="/yqbot/app/SourceHanSans-Normal.ttc",
                           color_func=lambda *args, **kwargs: (140, 184, 255)).generate_from_frequencies(wd)
 
     image = wordcloud.to_image()

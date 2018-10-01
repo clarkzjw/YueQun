@@ -11,11 +11,12 @@ def get_rank(args):
             users[u[0]] = u[1]
 
         all_messages = list(select((msg.tg_user_id, count()) for msg in Message).order_by(lambda: desc(count())))
-        number = len(all_messages)
         try:
-            number = abs(int(args[0]))
+            number = abs(int(args[0]))  # 如果输入负数，展示绝对值对应的排名
         except:
-            pass
+            number = 10  # 默认展示前10名，如果参数不是数字也只显示前10名
+        if number == 0:  # 输入数字0展示全部排名
+            number = len(all_messages)
         rank_text = ""
         c = 1
         for r in all_messages[:number]:

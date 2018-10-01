@@ -118,7 +118,7 @@ def user_get_per_user_report(bot, update):
 
 
 @log_command
-# @auth
+@auth
 @check_in_group_message
 def user_get_word_cloud(bot, update):
     update.message.reply_text("请稍后……")
@@ -132,9 +132,8 @@ def user_get_word_cloud(bot, update):
     bot.send_photo(update.message.chat_id, photo=cloud)
 
 
-
 @log_command
-# @auth
+@auth
 @check_in_group_message
 def user_get_msg_count_rank(bot, update, args):
     update.message.reply_text(text=get_rank(args),
@@ -142,11 +141,12 @@ def user_get_msg_count_rank(bot, update, args):
 
 
 @log_command
-# @auth
+@auth
 @check_in_group_message
 def user_get_reply_relation(bot, update):
-    from group.bagua import get_reply_network
-    get_reply_network()
+    update.message.reply_text("Not implemented yet.")
+    # from group.bagua import get_reply_network
+    # get_reply_network()
 
 
 @log_command
@@ -178,7 +178,6 @@ def main():
     dp.add_handler(CommandHandler("get_bagua", user_get_reply_relation))
     dp.add_handler(CommandHandler("get_mention", user_get_mention))
     dp.add_handler(CommandHandler("get_word_cloud", user_get_word_cloud))
-
 
     # on noncommand i.e message
     dp.add_handler(MessageHandler(Filters.all, yqbot_handler))

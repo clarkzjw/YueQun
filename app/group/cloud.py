@@ -18,7 +18,7 @@ def is_emoji(s):
 
 
 def get_word_cloud():
-    for i in open("stopwords.txt").read().split('\n'):
+    for i in open("/yqbot/app/stopwords.txt").read().split('\n'):
         stopwords.add(unicodedata.normalize('NFC', i))
 
     with db_session:

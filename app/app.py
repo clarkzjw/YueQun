@@ -7,6 +7,7 @@ YueQun Bot - An advanced bot to improve your Telegram group chat experiences.
 """
 
 import logging
+from io import BytesIO
 
 import pika
 import telegram
@@ -15,6 +16,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from broker.rabbitmq.producer import send_raw_update_to_mq
 from config.common import MQ_PARAMS
 from config.common import TG_BOT_TOKEN
+from group.cloud import get_word_cloud
 from group.common import auth, group_auth, check_in_group_message, log_command
 from group.common import change_user_ignore
 from group.rank import get_rank
@@ -115,10 +117,19 @@ def user_get_per_user_report(bot, update):
     update.message.reply_text("Not implemented yet.")
 
 
-
+@log_command
+# @auth
+@check_in_group_message
 def user_get_word_cloud(bot, update):
-    from group.cloud import get_word_cloud
-    get_word_cloud()
+    update.message.reply_text("请稍后……")
+    img = get_word_cloud()
+
+    cloud = BytesIO()
+    cloud.name = 'cloud.jpeg'
+    img.save(cloud, 'JPEG')
+    cloud.seek(0)
+
+    bot.send_photo(update.message.chat_id, photo=cloud)
 
 
 

@@ -3,6 +3,8 @@ import unicodedata
 
 import jieba
 import jieba.analyse
+import validators
+from emoji import UNICODE_EMOJI
 from pony.orm.core import select
 from wordcloud import WordCloud
 
@@ -11,15 +13,21 @@ from model.db import db_session, Message
 stopwords = set()
 
 
+def is_emoji(s):
+    return s in UNICODE_EMOJI
+
+
 def get_word_cloud():
     for i in open("stopwords.txt").read().split('\n'):
-        # print(i)
         stopwords.add(unicodedata.normalize('NFC', i))
 
     with db_session:
         all_messages = list(select(msg.tg_msg_text for msg in Message))
         words = {}
         for msg in all_messages:
+            if validators.url(msg):
+                continue
+
             for w in jieba.cut(msg, cut_all=False):
                 w = unicodedata.normalize('NFC', w)
                 w = w.strip()
@@ -27,11 +35,13 @@ def get_word_cloud():
                     continue
                 if w in stopwords:
                     continue
+                if is_emoji(w):
+                    continue
                 if w not in words:
                     words[w] = 1
-                    # print(w)
                 else:
                     words[w] += 1
+
     with open('cut_result.csv', 'w') as cf:
         writer = csv.DictWriter(cf, ["word", "count"])
         writer.writeheader()
@@ -49,4 +59,4 @@ def get_word_cloud():
                           color_func=lambda *args, **kwargs: (140, 184, 255)).generate_from_frequencies(wd)
 
     image = wordcloud.to_image()
-    image.show()
+    return image

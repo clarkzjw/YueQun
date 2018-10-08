@@ -1,8 +1,11 @@
 import os
+
 import pika
 
 TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN", "123456789:A-AHYaxhIoUIAPXdbFtD0YD4Jk9qB18VnPo")
 TG_IN_USE_GROUP = os.getenv("TG_IN_USE_GROUP", "-215701199")
+# should be different with TG_BOT_TOKEN
+TG_KEYWORD_BOT_TOKEN = os.getenv("TG_KEYWORD_BOT_TOKEN", "123456789:A-AHYaxhIoUIAPXdbFtD0YD4Jk9qB18VnPo")
 
 
 MQ_ADDRESS = os.getenv("MQ_ADDRESS", "127.0.0.1")

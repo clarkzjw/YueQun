@@ -14,6 +14,7 @@ networkx = "*"
 matplotlib = "*"
 validators = "*"
 emoji = "*"
+apscheduler = "*"
 
 [dev-packages]
 

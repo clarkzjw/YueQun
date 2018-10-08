@@ -4,10 +4,13 @@ import pickle
 
 import pika
 from pony.orm import db_session, commit
+from telegram import Bot
 
 from config.common import MQ_CHANNEL_GROUP_MESSAGE
 from config.common import MQ_PARAMS
+from config.common import TG_KEYWORD_BOT_TOKEN
 from group.common import insert_user_by_update
+from group.keyword import check_keyword_and_sent
 from group.parse import check_is_mention, check_is_reply, check_is_sticker, check_user_ignore
 from model.db import Message, db
 
@@ -22,10 +25,14 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+bot = Bot(TG_KEYWORD_BOT_TOKEN)
+
 
 def callback(ch, method, properties, body):
     update = pickle.loads(body)
     logger.info(update)
+
+    check_keyword_and_sent(bot, update)
 
     if check_user_ignore(update):
         pass

@@ -44,8 +44,8 @@ def send_keyword_notify(bot, update, keyword):
         bot.forward_message(chat_id=keyword[1],
                             from_chat_id=update.message.chat_id,
                             message_id=update.message.message_id)
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
 
 def check_keyword_and_sent(bot, update):

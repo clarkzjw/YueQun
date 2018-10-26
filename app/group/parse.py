@@ -20,6 +20,13 @@ def check_is_sticker(update):
     return 0
 
 
+def get_update_text(update):
+    try:
+        return update.message.text
+    except:
+        return None
+
+
 def check_user_ignore(update):
     user_id = update.message.from_user.id
     with db_session:

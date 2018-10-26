@@ -19,6 +19,7 @@ from config.common import TG_BOT_TOKEN
 from group.cloud import get_word_cloud
 from group.common import auth, group_auth, check_in_group_message, log_command
 from group.common import change_user_ignore
+from group.keyword import set_keyword_reminder, get_keyword_by_user_id, user_del_keyword
 from group.rank import get_rank
 from model.db import init_db
 
@@ -98,9 +99,33 @@ def user_set_ignore(bot, update):
 @log_command
 @auth
 @check_in_group_message
-def user_set_keyword_reminder(bot, update):
-    # TODO: write an function about get keyword list by user
-    update.message.reply_text("Not implemented yet.")
+def user_set_keyword_reminder(bot, update, args):
+    if not args:
+        update.message.reply_text(text="使用格式为 `/set_keyword xxx`",
+                                  parse_mode=telegram.ParseMode.MARKDOWN)
+        return
+    keywords = set_keyword_reminder(update.message.from_user.id, args)
+    update.message.reply_text(keywords)
+
+
+@log_command
+@auth
+@check_in_group_message
+def user_get_keyword_reminder(bot, update):
+    keywords = get_keyword_by_user_id(update.message.from_user.id)
+    update.message.reply_text(keywords)
+
+
+@log_command
+@auth
+@check_in_group_message
+def user_del_keyword_reminder(bot, update, args):
+    if not args:
+        update.message.reply_text(text="使用格式为 `/del_keyword xxx`",
+                                  parse_mode=telegram.ParseMode.MARKDOWN)
+        return
+    keywords = user_del_keyword(update.message.from_user.id, args)
+    update.message.reply_text(keywords)
 
 
 @log_command
@@ -171,13 +196,18 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("set_ignore", user_set_ignore))
-    dp.add_handler(CommandHandler("set_keyword", user_set_keyword_reminder))
+
+    dp.add_handler(CommandHandler("set_keyword", user_set_keyword_reminder, pass_args=True))
+    dp.add_handler(CommandHandler("get_keyword", user_get_keyword_reminder))
+    dp.add_handler(CommandHandler("del_keyword", user_del_keyword_reminder, pass_args=True))
+
+    dp.add_handler(CommandHandler("get_rank", user_get_msg_count_rank, pass_args=True))
+    dp.add_handler(CommandHandler("get_cloud", user_get_word_cloud))
+
     dp.add_handler(CommandHandler("get_report", user_get_cron_report))
     dp.add_handler(CommandHandler("get_user", user_get_per_user_report))
-    dp.add_handler(CommandHandler("get_rank", user_get_msg_count_rank, pass_args=True))
     dp.add_handler(CommandHandler("get_bagua", user_get_reply_relation))
     dp.add_handler(CommandHandler("get_mention", user_get_mention))
-    dp.add_handler(CommandHandler("get_cloud", user_get_word_cloud))
 
     # on noncommand i.e message
     dp.add_handler(MessageHandler(Filters.all, yqbot_handler))

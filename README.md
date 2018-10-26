@@ -1,12 +1,20 @@
 # YueQun
 
-
-An Advanced Bot to Improve Your Telegram Experiences
+An Advanced Bot to Improve Your Telegram Group Experiences
 
 # Features
 
+- [x] Log group messages
 
+- [x] Keyword reminder
 
+- [x] User rank
+
+- [x] Word cloud
+
+- [ ] Personal report
+
+- [ ] Relationship finder
 
 # LICENSE
 

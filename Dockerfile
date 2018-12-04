@@ -1,6 +1,8 @@
 FROM python:3
 LABEL MAINTAINER=clarkzjw<hello@jinwei.me>
 
+ENV TZ Asia/Shanghai
+
 RUN pip install --upgrade pipenv
 
 ADD Pipfile.lock /yqbot/Pipfile.lock

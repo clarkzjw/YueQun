@@ -22,6 +22,14 @@ An Advanced Bot to Improve Your Telegram Group Experiences
 
 + Use docker-compose to start bot instance
 
+# Contribution
+
+If you have experience in front end development and willing to help, I'll be much appreciated.
+
+# Contact
+
+hello@jinwei.me or via [Telegram](https://t.me/clarkzjw)
+
 # LICENSE
 
 ![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png)

@@ -35,7 +35,7 @@ def callback(ch, method, properties, body):
     check_keyword_and_sent(bot, update)
 
     if update.message.new_chat_members:  # entering group trigger
-        update.message.reply_text('新人请发红包,支付宝QQ微信都可以')
+        update.message.reply_text('新人请发红包，支付宝 QQ 微信都可以')
     if update.message.left_chat_member:  # left group trigger
         update.message.reply_text('@%s 退群了!' % update.message.left_chat_member.username)
 

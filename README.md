@@ -12,9 +12,15 @@ An Advanced Bot to Improve Your Telegram Group Experiences
 
 - [x] Word cloud
 
-- [ ] Personal report
+# Installation
 
-- [ ] Relationship finder
++ Build docker image
+
++ Start a RabbitMQ and MySQL instance
+
++ Change .envfile
+
++ Use docker-compose to start bot instance
 
 # LICENSE
 

@@ -1,0 +1,11 @@
+pony
+python-telegram-bot
+pymysql
+pika
+jieba
+wordcloud
+networkx
+matplotlib
+validators
+emoji
+apscheduler

@@ -3,14 +3,10 @@ LABEL MAINTAINER=clarkzjw<hello@jinwei.me>
 
 ENV TZ Asia/Shanghai
 
-RUN pip install --upgrade pipenv
-
-ADD Pipfile.lock /yqbot/Pipfile.lock
-
-ADD Pipfile /yqbot/Pipfile
+ADD requirements.txt /yqbot/requirements.txt
 
 WORKDIR /yqbot
 
-RUN pipenv install --system --deploy
+RUN pip install -r requirements.txt
 
 ADD . /yqbot

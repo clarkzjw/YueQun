@@ -25,3 +25,9 @@ MYSQL_USER = os.getenv("MYSQL_USER", "root")
 MYSQL_PASS = os.getenv("MYSQL_PASS", "root")
 MYSQL_DB = os.getenv("MYSQL_DB", "yuequnbot")
 
+INFLUXDB_ADDRESS = os.getenv("INFLUXDB_ADDRESS", "127.0.0.1")
+INFLUXDB_PORT = os.getenv("INFLUXDB_PORT", "8086")
+INFLUXDB_USERNAME = os.getenv("INFLUXDB_USERNAME", "test")
+INFLUXDB_PASSWORD = os.getenv("INFLUXDB_PASSWORD", "test")
+INFLUXDB_DBNAME = os.getenv("INFLUXDB_DBNAME", "yuequn")
+

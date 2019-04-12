@@ -23,9 +23,6 @@ def migrate():
                         "tg_user_username": msg.tg_user_username,
                         "tg_msg_id": msg.tg_msg_id,
                         "tg_msg_text": msg.tg_msg_text,
-                        "tg_msg_is_reply": msg.tg_msg_is_reply,
-                        "tg_msg_is_mention": msg.tg_msg_is_mention,
-                        "tg_msg_is_sticker": msg.tg_msg_is_sticker,
                         "tg_update_id": msg.tg_update_id
                     }
                 }

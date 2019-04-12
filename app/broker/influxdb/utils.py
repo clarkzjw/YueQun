@@ -18,9 +18,6 @@ def insert_update_to_influxdb(update):
                 "tg_msg_id": update.message.message_id,
                 "tg_msg_text": update.message.text if not check_is_sticker(
                                 update) else update.message.sticker.emoji,
-                "tg_msg_is_reply": check_is_reply(update),
-                "tg_msg_is_mention": check_is_mention(update),
-                "tg_msg_is_sticker": check_is_sticker(update),
                 "tg_update_id": update.update_id
             }
         }

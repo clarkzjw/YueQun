@@ -30,7 +30,10 @@ def migrate():
                     }
                 }
             ]
-            client.write_points(influx_msg)
+            try:
+                client.write_points(influx_msg)
+            except:
+                pass
 
 
 if __name__ == "__main__":

@@ -14,6 +14,8 @@ from group.keyword import check_keyword_and_sent
 from group.parse import check_is_mention, check_is_reply, check_is_sticker, check_user_ignore
 from model.db import Message, db
 
+from broker.influxdb.utils import insert_update_to_influxdb
+
 connection = pika.BlockingConnection(MQ_PARAMS)
 channel = connection.channel()
 
@@ -47,7 +49,8 @@ def callback(ch, method, properties, body):
                 Message(tg_user_id=update.message.from_user.id,
                         tg_user_username=update.message.from_user.username,
                         tg_msg_id=update.message.message_id,
-                        tg_msg_text=update.message.text if not check_is_sticker(update) else update.message.sticker.emoji,
+                        tg_msg_text=update.message.text if not check_is_sticker(
+                            update) else update.message.sticker.emoji,
                         tg_msg_timestamp=update.message.date,
                         tg_update_id=update.update_id,
                         tg_msg_is_reply=check_is_reply(update),
@@ -56,6 +59,8 @@ def callback(ch, method, properties, body):
                         tg_update_full=body)
                 insert_user_by_update(update)
                 commit()
+
+            insert_update_to_influxdb(update)
         except ValueError:
             pass
 

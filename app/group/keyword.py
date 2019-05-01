@@ -3,7 +3,7 @@ from telegram import ParseMode
 
 from group.parse import get_update_text
 from model.db import db_session, Reminder, commit, delete
-
+from pytz import timezone
 
 def set_keyword_reminder(user_id, args):
     with db_session:
@@ -39,7 +39,8 @@ def get_keyword_by_user_id(user_id):
 
 def send_keyword_notify(bot, update, keyword):
     try:
-        msg = "{}, `{}` 在水群中提到了 `{}`".format(update.message.date, update.message.from_user.username, keyword[0])
+        msg = "{}, `{}` 在水群中提到了 `{}`".format(update.message.date.replace(tzinfo=timezone('Asia/Shanghai')),
+                                             update.message.from_user.username, keyword[0])
         bot.send_message(chat_id=keyword[1], text=msg, parse_mode=ParseMode.MARKDOWN)
         bot.forward_message(chat_id=keyword[1],
                             from_chat_id=update.message.chat_id,

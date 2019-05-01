@@ -1,7 +1,7 @@
 FROM python:3
 LABEL MAINTAINER=clarkzjw<hello@jinwei.me>
 
-ENV TZ Asia/Shanghai
+ENV TZ UTC
 
 ADD requirements.txt /yqbot/requirements.txt
 

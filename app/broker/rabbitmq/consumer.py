@@ -12,7 +12,7 @@ from config.common import TG_KEYWORD_BOT_TOKEN
 from group.common import insert_user_by_update
 from group.keyword import check_keyword_and_sent
 from group.parse import check_is_mention, check_is_reply, check_is_sticker, check_user_ignore
-from model.db import Message, db
+from db.model import Message, db
 
 from broker.influxdb.utils import insert_update_to_influxdb
 

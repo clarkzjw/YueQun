@@ -1,6 +1,7 @@
 from influxdb import InfluxDBClient
-from model.db import db_session, select, Message, db
+
 from config.common import INFLUXDB_ADDRESS, INFLUXDB_DBNAME, INFLUXDB_PASSWORD, INFLUXDB_PORT, INFLUXDB_USERNAME
+from db.model import db_session, select, Message, db
 
 
 def migrate():

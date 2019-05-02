@@ -1,4 +1,4 @@
-from model.db import User, db_session
+from db.model import User, db_session
 
 
 def check_is_mention(update):

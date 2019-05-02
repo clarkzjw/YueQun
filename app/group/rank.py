@@ -1,6 +1,6 @@
 from pony.orm.core import select, count, desc
 
-from model.db import db_session, Message, User
+from db.model import db_session, Message, User
 
 
 def get_rank(args):

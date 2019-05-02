@@ -1,4 +1,4 @@
-from model.db import db_session, select, count, Message, db, User
+from db.model import db_session, select, count, Message, db, User
 import datetime
 
 

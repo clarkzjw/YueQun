@@ -8,7 +8,7 @@ from emoji import UNICODE_EMOJI
 from pony.orm.core import select
 from wordcloud import WordCloud
 
-from model.db import db_session, Message
+from db.model import db_session, Message
 
 stopwords = set()
 
@@ -18,7 +18,7 @@ def is_emoji(s):
 
 
 def get_word_cloud():
-    for i in open("/yqbot/app/stopwords.txt").read().split('\n'):
+    for i in open("/yqbot/app/assets/stopwords.txt").read().split('\n'):
         stopwords.add(unicodedata.normalize('NFC', i))
 
     with db_session:
@@ -55,7 +55,7 @@ def get_word_cloud():
         for i in reader:
             wd[i["word"]] = int(i["count"])
 
-    wordcloud = WordCloud(width=1024, height=1024, font_path="/yqbot/app/SourceHanSans-Normal.ttc",
+    wordcloud = WordCloud(width=1024, height=1024, font_path="/yqbot/app/assets/SourceHanSans-Normal.ttc",
                           color_func=lambda *args, **kwargs: (140, 184, 255)).generate_from_frequencies(wd)
 
     image = wordcloud.to_image()

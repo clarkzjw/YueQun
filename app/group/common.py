@@ -3,7 +3,7 @@ import pickle
 from telegram.error import BadRequest
 
 from config.common import TG_IN_USE_GROUP
-from model.db import User, db_session, commit, BotCommand
+from db.model import User, db_session, commit, BotCommand
 
 
 def check_group_auth(group_id):

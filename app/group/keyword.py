@@ -2,7 +2,7 @@ from pony.orm.core import select
 from telegram import ParseMode
 
 from group.parse import get_update_text
-from model.db import db_session, Reminder, commit, delete
+from db.model import db_session, Reminder, commit, delete
 from pytz import timezone
 
 def set_keyword_reminder(user_id, args):

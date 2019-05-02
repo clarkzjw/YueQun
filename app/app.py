@@ -21,7 +21,7 @@ from group.common import auth, group_auth, check_in_group_message, log_command
 from group.common import change_user_ignore
 from group.keyword import set_keyword_reminder, get_keyword_by_user_id, user_del_keyword
 from group.rank import get_rank
-from model.db import init_db
+from db.model import init_db
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
